@@ -16,7 +16,7 @@ class HomeController {
     }
 
     public function index() {
-        echo "Hola!";
+        echo $this->_twig->render("home.twig");
     }
 
 }

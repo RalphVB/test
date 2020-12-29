@@ -1,0 +1,16 @@
+{% extends "layout.twig" %}
+
+{% block content %}
+    <div class="row justify-content-center mt-5">
+        <div class="col-12 text-center">
+            <h1 class="text-muted mt-5">codingTest PHP</h1>
+            <form action="/calculate" method="POST" class="w-50 mx-auto mt-4" name="csvForm" id="csvForm" enctype="multipart/form-data">
+                <div class="form-group text-center">
+                    <label for="csv">Select csv file to upload:</label>
+                    <input type="file" name="csv" id="csv" class="form-control">
+                </div>
+                <button type="submit" class="btn btn-primary btn-block">Upload</button>
+            </form>
+        </div>
+    </div>
+{% endblock %}
