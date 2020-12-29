@@ -1,16 +1,105 @@
 {% extends "layout.twig" %}
 
 {% block content %}
-    <div class="row justify-content-center mt-5">
-        <div class="col-12 text-center">
-            <h1 class="text-muted mt-5">codingTest PHP</h1>
-            <form action="/calculate" method="POST" class="w-50 mx-auto mt-4" name="csvForm" id="csvForm" enctype="multipart/form-data">
-                <div class="form-group text-center">
-                    <label for="csv">Select csv file to upload:</label>
-                    <input type="file" name="csv" id="csv" class="form-control">
-                </div>
-                <button type="submit" class="btn btn-primary btn-block">Upload</button>
-            </form>
+    <h1 class="text-muted mt-5 text-center">Calculate Statistics</h1>
+
+    {% if variables.error %}
+        <div class="alert alert-danger alert-dismissible text-center">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <strong>Error!</strong> {{ variables.error }}
         </div>
-    </div>
+    {% endif %}
+
+    {%  if variables and  not variables.error %}
+        <div class="alert alert-success alert-dismissible text-center">
+            <button type="button" class="close" data-dismiss="alert">&times;</button>
+            <p><strong>Count of User Within Score Range: </strong> {{ variables.scoreCount }}</p>
+            <p><strong>Count of User By Condition: </strong> {{ variables.conditionCount }}</p>
+        </div>
+    {%  endif %}
+
+    <form action="/calculate" method="post" class="w-50 mx-auto mt-4 text-center" name="csvForm" id="csvForm" enctype="multipart/form-data">
+        <div class="row justify-content-center mt-5">
+            <div class="col-6 form-group">
+                <label for="rangeStart">Range Start</label>
+                <input type="number" name="rangeStart" id="rangeStart" class="form-control" />
+            </div>
+            <div class="col-6 form-group">
+                <label for="rangeEnd">Range End</label>
+                <input type="number" name="rangeEnd" id="rangeEnd" class="form-control" />
+            </div>
+            <div class="col-6 form-group">
+                <label for="region">Region</label>
+                <input type="text" name="region" id="region" class="form-control" />
+            </div>
+            <div class="col-6 form-group">
+                <label for="gender">Select gender</label>
+                <select class="form-control" id="gender" name="gender">
+                    <option disabled selected>Select gender</option>
+                    <option value="w">Woman</option>
+                    <option value="m">Man</option>
+                </select>
+            </div>
+            <div class="col-6 form-group">
+                <label for="legal">Has legal age?</label>
+                <select class="form-control" id="legal" name="legal">
+                    <option disabled selected>Has legal age?</option>
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                </select>
+            </div>
+            <div class="col-6 form-group">
+                <label for="score">Has positive score?</label>
+                <select class="form-control" id="score" name="score">
+                    <option disabled selected>Has positive score</option>
+                    <option value="true">Yes</option>
+                    <option value="false">No</option>
+                </select>
+            </div>
+            <div class=" col-12 form-group">
+                <label for="csvFile">Select csv file to upload:</label>
+                <input type="file" name="csvFile" id="csvFile" class="form-control"/>
+            </div>
+            <button type="submit" class="btn btn-primary btn-block">Calculate</button>
+        </div>
+    </form>
+{% endblock %}
+
+{% block scripts %}
+    <script>
+        $(document).ready(function () {
+
+            jQuery.validator.addMethod("lettersonly", function (value, element) {
+                return this.optional(element) || /^[a-z\s]+$/i.test(value);
+            }, "Only alphabetical characters.");
+
+            $("#csvForm").validate({
+                rules: {
+                    rangeStart: {
+                        required: true,
+                    },
+                    rangeEnd: {
+                        required: true,
+                    },
+                    region: {
+                        required: true,
+                        lettersonly: true
+                    },
+                    gender: {
+                        required: true
+                    },
+                    legal: {
+                        required: true
+                    },
+                    score: {
+                        required: true
+                    },
+                    csvFile: {
+                        required: true,
+                        extension: "csv"
+                    }
+                }
+            });
+        })
+    </script>
 {% endblock %}

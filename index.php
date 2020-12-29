@@ -1,12 +1,10 @@
 <?php
 
-error_reporting(E_ALL);
-ini_set('display_errors', '1');
-
 $container = require __DIR__ . "/app/bootstrap.php";
 
 $dispatcher = FastRoute\simpleDispatcher( function( FastRoute\RouteCollector $router ) {
    $router->addRoute("GET", "/", ["Statistic\Controllers\HomeController", "index"]);
+   $router->addRoute("POST", "/calculate", ["Statistic\Controllers\HomeController", "calculate"]);
 });
 
 $httpMethod = $_SERVER["REQUEST_METHOD"];
