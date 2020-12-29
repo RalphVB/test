@@ -1,0 +1,11 @@
+{
+    "name": "rcontreras/test",
+    "description": "codingTest PHP",
+    "authors": [
+        {
+            "name": "Rafael Contreras",
+            "email": "ralphvb_45@hotmail.com"
+        }
+    ],
+    "require": {}
+}
